@@ -55,7 +55,7 @@ SSLEngine on
 
 
 in command line launch :
-- the **init** command to set somes vars
+- **yii install** command to set somes vars
 - **yii migrate** and type "yes" to create and empty database
 - For the client configuraiton, open the root uri of gaspSync
 
