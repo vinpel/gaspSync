@@ -4,10 +4,11 @@
 $email=time().'test@exemple.com';
 $I = new AcceptanceTester($scenario);
 $I->wantTo('ensure that the content server works');
-
+/*
+  When i say scrypt not mandatory ....
 $I->wantTo('have "scrypt" PHP extension loaded (too slow without it)');
 $I->assertTrue(extension_loaded("scrypt"));
-
+*/
 
 
 $I->wantTo('get landing page ');
