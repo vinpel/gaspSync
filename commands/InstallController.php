@@ -9,6 +9,18 @@ namespace app\commands;
 
 use yii\console\Controller;
 
+
+
+//use BrowserID\AbstractPublicKey;
+//use BrowserID\AbstractSecretKey;
+
+use BrowserID\CertAssertion;
+use BrowserID\CertBundle;
+
+
+use BrowserID\Secrets;
+use BrowserID\Algs\RSAKeyPair;
+use BrowserID\WebToken;
 /**
 * This command configure gaspSync
 *
@@ -37,8 +49,7 @@ class InstallController extends Controller
     $local='./config/local.init.php';
 
     if (!is_file($local)){
-
-      echo "\n  Enter the public URI of the server without ending:\n";
+      echo "\n  Enter the public URI of the server without ending slash:\n";
       $data['publicURI'] = trim(fgets(STDIN));
       echo "\n  Information for the database connexion (/conf/db.php): ";
       echo "\n  --------------------";
@@ -50,10 +61,15 @@ class InstallController extends Controller
       $data['username'] = trim(fgets(STDIN));
       echo "\n  Password:  ";
       $data['password'] = trim(fgets(STDIN));
+        //save the configuration, if you need to launch multiple time the install
+      echo "\n      create file config/local.init.php";
+      $fc=var_export($data,true);
+      file_put_contents('./config/local.init.php',"<?php\n return $fc \n?>");
     }
     else{
       $data=require($local);
     }
+    echo "\n      editing config/db.php";
     $db=var_export([
       'class' => 'yii\db\Connection',
       'dsn' => 'mysql:host='.$data['host'].';dbname='.$data['database'],
@@ -62,8 +78,8 @@ class InstallController extends Controller
       'charset' => 'utf8',
     ],true);
     $fileContent="<?php\n return $db \n?>";
-    echo "\n      editing config/db.php";
     file_put_contents('./config/db.php',$fileContent);
+
 
 
     setPublicURI($data['publicURI']);
@@ -76,7 +92,7 @@ class InstallController extends Controller
     $target=[
         'BrowserID',
         'BrowserID/keys',
-        //'BrowserID/keys/tests',
+        //'BrowserID/keys/tests', //this directory is created when you make tests
         'BrowserID/var',
         'BrowserID/well-known'
         ];
@@ -90,17 +106,66 @@ class InstallController extends Controller
     setCookieValidationKey('config',['web.php']);
 
     if (!is_file('./storage/secretToken')){
-      echo "\n     creating new secretToken";
+      echo "\n      creating new secretToken";
       $length = 64;
       $bytes = mcrypt_create_iv($length, MCRYPT_DEV_URANDOM);
       $secretKey = strtr(substr(base64_encode($bytes), 0, $length), '+/=', '_-.');
       file_put_contents('./storage/secretToken',$secretKey);
     }
 
-    echo "\n      Creating dsaKeyPair";
+    echo "\n      creating dsaKeyPair";
     $dsa=new \Crypto\Crypto();
     $keyPath=\Yii::getAlias('@storage/BrowserID/keys/');
     $dsa->generateNewDSAKey($keyPath);
+
+    echo "\n      creating root certificate";
+    // Comment the following line out to test the script!
+
+    $name = 'root';
+    $keysize = 256;
+
+      //Place the openSSL config file
+    copy(\Yii::getAlias('@vendor/vinpel/php-browseridlib/storage/BrowserID/var/openssl.cnf'),
+    \Yii::getAlias('@storage/BrowserID/var/openssl.cnf'));
+
+    // Generate keypair:
+    echo "\n      -> generate key pair with keysize $keysize...";
+    $pair = RSAKeyPair::generate($keysize);
+
+    echo "\n      -> keys were generated!";
+
+    // Write secret key to file:
+    echo "\n      -> write Secret Key...";
+
+    $pathSecretKey = Secrets::getPathSecretKey($name);
+
+
+    $handle = fopen($pathSecretKey, "w+");
+
+    fwrite($handle, $pair->getSecretKey()->serialize());
+    fclose($handle);
+    echo "\n      -> secret Key was written to " . $pathSecretKey ;
+
+    // Write public key to file:
+    echo "\n      -> write Public Key...";
+    $pathPublicKey = Secrets::getPathPublicKey($name);
+    $public = array("public-key"=>json_decode($pair->getPublicKey()->serialize(), true));
+    $token = new WebToken($public);
+    $handle = fopen($pathPublicKey, "w+");
+    fwrite($handle, $token->serialize($pair->getSecretKey()));
+    fclose($handle);
+    echo "\n      -> public Key was written to " . $pathPublicKey ;
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -9,17 +9,28 @@ the current version is NOT READY FOR PRODUCTION,
 ONLY FOR TEST FOR NOW
 
 
-A in progress php implementation of the mozilla 1.5 sync service.
+
+Since Firefox 29, Mozilla use the 1.5 sync protocol.
+
+Before that i used a Synology Nas to sync from all my computers my bookmark.
+
+Mozilla give a python self hosting script, i wanted to use a simple PHP app like before.
+
+**So i build one.**
+
+The final goal is to have a simple install on a Synology NAS or other models (it's a PHP app ).
+
+__Implemented :__
+
+- Token 1.5 Server : publish token and validate Hawk token security.
+- Sync storage 1.5 Server : store Bso objects like bookmarks, tab, history, password.
+- Assertion creation and validation : be able to accept and verifiy an assertion from an account server.
 
 
-The goal is to be able to install it on a Nas.
+__Not implemented :__
 
-What works :
- - Sync storage 1.5 Server (tested with firefox for computer)
- - Token 1.5 Server
-
-What doesn't works :
- - Fxa account (you need to use the Fxa official account for now)
+- account server.
+- content server : create, update account, change password ...
 
 
 
@@ -28,11 +39,10 @@ What doesn't works :
 
 ## PHP Extensions
 
-extension :
 Required  :
 - gmp
 - curl
-in the future for Fxa part  :
+in the future for account server :
 - scrypt
 
 
@@ -55,31 +65,45 @@ SSLEngine on
 
 
 in command line launch :
-- **yii install** command to set somes vars
+- **composer install** : install Yii2, custom package ...
+- **yii install** Create keys, configuration ...
 - **yii migrate** and type "yes" to create and empty database
-- For the client configuraiton, open the root uri of gaspSync
+- For the client configuration, open the root URI of gaspSync
 
 
 ## Client configuration
 
-- in firefox go to the root uri of gaspSync
-- add a permanent exception if the certificat is selfsigned
+- in Firefox go to the root URI of gaspSync
+- add a permanent exception if the installed certificate is self-signed
 
 
 __Information :__
-- !! Warning, when you **LOGOUT** from Fxa the tokenserverurl is reset, you need to restart firefox !!
-- Each time you relaunch Firefox, the user.js is applied.
+- !! Warning, when you **LOGOUT** from Firefox account, the tokenserverurl is reset to default, you need to restart Firefox before login again !!
+- Each time you relaunch Firefox, the custom value of "user.js" are applied.
 
 ## Running tests
 
-open 2 terminal :
-- go in tests dir execute "./launchServer.sh"
-- go in tests dir execute "codeception run"
+After the installation of gaspSync,open 2 terminal :
+
+Terminal 1 :
+```
+
+cd ./tests
+./launchServer.sh
+```
+
+Terminal 2 :
+```
+cd ./tests
+codecept build
+$codecep run
+```
+
 
 ## gaspSync hosted on the same computer
 
 if the server is on the same computer you need to desactivate a security :
- - Desactive the rules **ABE locale**
+- Desactive the rules **ABE locale**
 
 ```
 SYSTEM rule:
@@ -89,13 +113,16 @@ The o
 Deny
 ```
 
-## Install Scrypt PHP module (not functionnal for now,write down  only for reference here)
+## Install Scrypt PHP module
+####(not functionnal for now,write down  only for reference here)
 
 Debian Turnkey :
+
 ```
 apt-get install make php-pear php5-dev
 pecl install scrypt
 ```
+the next goal is to make a cross-compilation (/build dir is a test config)
 http://benjamin-balet.info/multimedia/synology/cross-compilation-pour-synology/
 http://www.aeropassion.net/leblog/post/2013/12/Cross-compilation-pour-un-NAS-Synology
 
@@ -106,23 +133,23 @@ http://www.aeropassion.net/leblog/post/2013/12/Cross-compilation-pour-un-NAS-Syn
 **How to turn on sync logs:**
 
 Open [about:config] and turn this at  **true** :
-  - services.sync.log.appender.file.logOnSuccess
-  - services.sync.log.logger.engine.bookmarks
+- services.sync.log.appender.file.logOnSuccess
+- services.sync.log.logger.engine.bookmarks
 
 Restart Firefox and look at: [about:sync-log]
 
 
-  - in firefox go to [about:sync-log] [2]
-  - you now know the directory where all the "success" and "failure" sync are stored.
+- in firefox go to [about:sync-log] [2]
+- you now know the directory where all the "success" and "failure" sync are stored.
 
 ## Usefull Urls for FFSync
 
 - Token Server (configurated via user.js, need an assertion):
-   *https://IP:4000/tokenServer/1.0/sync/1.5*
+*https://IP:4000/tokenServer/1.0/sync/1.5*
 - Signup page
-   *https://IP:4000/signup?service=sync&context=fx_desktop_v1*
+*https://IP:4000/signup?service=sync&context=fx_desktop_v1*
 - Login page
-   *https://IP:4000*
+*https://IP:4000*
 
 
 
@@ -135,14 +162,14 @@ Restart Firefox and look at: [about:sync-log]
 
 ## PHP
 
- - __Yii 2__ : http://www.yiiframwework.com
- - __HKDF php implementation__ : https://gist.github.com/narfbg/8793435
+- __Yii 2__ : http://www.yiiframwework.com
+- __HKDF php implementation__ : https://gist.github.com/narfbg/8793435
 (Experimental HKDF implementation for CodeIgniter's encryption class)
- - __C scrypt module for PHPH__ : https://github.com/DomBlack/php-scrypt
- - __PHP Personna__ :  https://github.com/jyggen/persona
- - __create temporary personna account__ : http://personatestuser.org/
-   - https://github.com/mozilla/personatestuser.org
-   - http://personatestuser.org/email_with_assertion/https%3A%2F%2fjedp.gov
+- __C scrypt module for PHPH__ : https://github.com/DomBlack/php-scrypt
+- __PHP Personna__ :  https://github.com/jyggen/persona
+- __create temporary personna account__ : http://personatestuser.org/
+- https://github.com/mozilla/personatestuser.org
+- http://personatestuser.org/email_with_assertion/https%3A%2F%2fjedp.gov
 
 ## Ressources & Documentations  :
 
@@ -151,7 +178,7 @@ Restart Firefox and look at: [about:sync-log]
 - description du protocole : https://github.com/mozilla/fxa-auth-server/wiki/onepw-protocol :
 - List des serveurs : https://developer.mozilla.org/en-US/Firefox_Accounts#Firefox_Accounts_deployments
 - KeyServerProtocol et test vectors : https://wiki.mozilla.org/Identity/AttachedServices/KeyServerProtocol (slighlty deprecated)
- - test vectors tools : https://github.com/mozilla/fxa-python-client
+- test vectors tools : https://github.com/mozilla/fxa-python-client
 
 #### Content Server
 
@@ -161,9 +188,9 @@ Restart Firefox and look at: [about:sync-log]
 - https://github.com/mozilla/fxa-auth-server (all the important docs are here, **one pw**)
 - https://developer.mozilla.org/en-US/Persona/Identity_Provider_Overview
 - https://github.com/mozilla/browserid-verifier (local & remote Verifier)
-  - https://github.com/mozilla/id-specs/blob/prod/browserid/index.md
-  - https://developer.mozilla.org/fr/Persona/vue_densemble_du_protocole
-  - https://login.persona.org/.well-known/browserid (get public key for a host)
+- https://github.com/mozilla/id-specs/blob/prod/browserid/index.md
+- https://developer.mozilla.org/fr/Persona/vue_densemble_du_protocole
+- https://login.persona.org/.well-known/browserid (get public key for a host)
 
 #### Sync Server (implemented)
 
@@ -172,13 +199,13 @@ Restart Firefox and look at: [about:sync-log]
 -SyncStorage API v1.5* pour dev le serveur sans gerer les authentification
 
 ##### Token Server (implemented)
- - https://wiki.mozilla.org/Services/Sagrada/TokenServer
- - http://docs.services.mozilla.com/token/apis.html
- - (Implemented)  https://docs.services.mozilla.com/token/index.html#tokenserver
- - (Implemented) https://docs.services.mozilla.com/token/user-flow.html*
+- https://wiki.mozilla.org/Services/Sagrada/TokenServer
+- http://docs.services.mozilla.com/token/apis.html
+- (Implemented)  https://docs.services.mozilla.com/token/index.html#tokenserver
+- (Implemented) https://docs.services.mozilla.com/token/user-flow.html*
 
 
- Each Service Node has a unique Master Secret that it shares with the Login Server,which is used to sign and validate authentication tokens. Multiple secrets can be active at any one time to support graceful rolling over to a new secret.
+Each Service Node has a unique Master Secret that it shares with the Login Server,which is used to sign and validate authentication tokens. Multiple secrets can be active at any one time to support graceful rolling over to a new secret.
 
 To simplify management of these secrets, the tokenserver maintains a single list of master secrets and derives a secret specific to each node using HKDF:
 
@@ -199,12 +226,12 @@ Note that the token-secret is base64-encoded for ease of transmission back to th
 
 https://developer.mozilla.org/fr/Persona/API_de_verification
 
-## TurnKey
+## TurnKey configuration
 
 ````
 php5 gmp
 php5 curl
-samba :
+
 
 apt-get update
 apt-get install samba
@@ -217,7 +244,8 @@ apt-get install php5-intl
 apt-get install php5-gd
 
 apt-get install make
-apt-get update && apt-get install webmin
+apt-get install webmin
+
 pecl install scrypt
 ````
 
@@ -230,9 +258,9 @@ extension=curl.so
 extension=gmp.so
 ````
 
-__configuration apache :__
-- activer le mode rewrite
-- reboot
+__apache configuration:__
+- activate the rewrite mod
+- reboot / restart apache
 
 __configure samba__
 
@@ -240,9 +268,10 @@ __configure samba__
 
 ## Synology reference
 
-Compilation de packages synology :
+Cross compilation and build of Synology package :
 https://github.com/SynoCommunity/spksrc
- usefull command :
+
+Useful command line:
 
 ````
 /usr/syno/sbin/synoservicecfg --list
