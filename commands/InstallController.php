@@ -49,18 +49,34 @@ class InstallController extends Controller
     $local='./config/local.init.php';
 
     if (!is_file($local)){
-      echo "\n  Enter the public URI of the server without ending slash:\n";
+      echo "\n  Enter the public URI of the server without ending slash (need to be https) [https://localhost:4000]:\n";
       $data['publicURI'] = trim(fgets(STDIN));
+      if (strlen($data['publicURI'])==0){
+        $data['publicURI']='https://localhost:4000';
+      }
       echo "\n  Information for the database connexion (/conf/db.php): ";
       echo "\n  --------------------";
-      echo "\n  Host:  ";
+      
+      echo "\n  Host:  [localhost]";
       $data['host'] = trim(fgets(STDIN));
-      echo "\n  Database Name:  ";
+      if (strlen($data['host'])==0){
+        $data['host']='localhost';
+      }
+      echo "\n  Database Name:  [sync]";
       $data['database'] = trim(fgets(STDIN));
-      echo "\n  Username:  ";
+      if (strlen($data['database'])==0){
+        $data['database']='sync';
+      }
+      echo "\n  Username:  [root]";
       $data['username'] = trim(fgets(STDIN));
-      echo "\n  Password:  ";
+      if (strlen($data['username'])==0){
+        $data['username']='root';
+      }
+      echo "\n  Password:  [toor]";
       $data['password'] = trim(fgets(STDIN));
+      if (strlen($data['password'])==0){
+        $data['password']='toor';
+      }
         //save the configuration, if you need to launch multiple time the install
       echo "\n      create file config/local.init.php";
       $fc=var_export($data,true);
