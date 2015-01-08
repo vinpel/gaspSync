@@ -17,7 +17,7 @@
     "php": ">=5.4.0",
     "yiisoft/yii2": "2.0.1",
     "yiisoft/yii2-bootstrap": "2.0.1",
-    "vinpel/php-browseridlib": "0.5",
+    "vinpel/php-browseridlib": "*@dev",
     "vinpel/hawk": "*@dev",
     "vinpel/crypto": "*@dev",
     "yiisoft/yii2-codeception": "*",

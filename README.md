@@ -1,6 +1,8 @@
 gaspSync
 =========
 
+[![Build Status](https://travis-ci.org/vinpel/gaspSync.svg?branch=master)](https://travis-ci.org/vinpel/gaspSync)
+
 # Introduction
 
 ---
