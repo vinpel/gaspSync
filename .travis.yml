@@ -22,10 +22,10 @@ install:
   - travis_retry composer self-update && composer --version
   - travis_retry composer global require "fxp/composer-asset-plugin:1.0.0-beta4"
   - export PATH="$HOME/.composer/vendor/bin:$PATH"
+  - travis_retry composer update
 # codeception
   - travis_retry composer global require "codeception/codeception=2.0.*" "codeception/specify=*" "codeception/verify=*"
 script:
-  - vendor/bin/phpunit --verbose --coverage-clover=coverage.clover --exclude-group mssql,oci,wincache,xcache,zenddata
   - |
     if (php --version | grep -i HipHop > /dev/null); then
       echo "Skipping basic application tests on HHVM"
@@ -33,14 +33,6 @@ script:
       cd web
       php -S localhost:8080 > /dev/null 2>&1 &
       cd ../tests
-      codecept run
-    fi
-  - |
-    if (php --version | grep -i HipHop > /dev/null); then
-      echo "Skipping advanced application tests on HHVM"
-    else
-      cd apps/advanced
-      php -S localhost:8080 > /dev/null 2>&1 &
-      cd tests
+      codecept build
       codecept run
     fi
