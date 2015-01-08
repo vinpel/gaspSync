@@ -3,6 +3,7 @@ gaspSync
 
 [![Build Status](https://travis-ci.org/vinpel/gaspSync.svg?branch=master)](https://travis-ci.org/vinpel/gaspSync)
 
+
 # Introduction
 
 ---
@@ -89,7 +90,7 @@ __Information :__
 ## Running tests
 
 After the installation of gaspSync, open 2 terminal :
-
+(you can look in .travis.yml for an install toolchain )
 Terminal 1 :
 ```
 
@@ -101,7 +102,7 @@ Terminal 2 :
 ```
 cd ./tests
 codecept build
-$codecep run
+$codecept run
 ```
 
 
