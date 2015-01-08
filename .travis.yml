@@ -16,7 +16,9 @@ php:
 # optionally specify a list of environments, for example to test different RDBMS
 env:
   - DB=mysql
-
+# .travis.yml
+before_install:
+  - mysql -e 'create database sync;'
 
 install:
   - travis_retry composer self-update && composer --version
@@ -25,6 +27,11 @@ install:
   - travis_retry composer update
 # codeception
   - travis_retry composer global require "codeception/codeception=2.0.*" "codeception/specify=*" "codeception/verify=*"
+# configuration of the app
+  - travis_retry yii install/travis
+# Creating database
+  - travis_retry yii migrate --interactive=0
+
 script:
   - |
     if (php --version | grep -i HipHop > /dev/null); then

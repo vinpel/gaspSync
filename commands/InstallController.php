@@ -32,10 +32,19 @@ use BrowserID\WebToken;
 class InstallController extends Controller
 {
   /**
+  * special Configuration for travis
+  */
+  public function actionTravis() {
+
+    copy(\Yii::getAlias('@app/config/travis.init.php'),
+    \Yii::getAlias('@app/config/local.init.php'));
+    $this->actionIndex();
+  }
+  /**
   * This command echoes what you have entered as the message.
   * @param string $message the message to be echoed.
   */
-  public function actionIndex($message = 'hello world')
+  public function actionIndex()
   {
 
     echo "\ngaspSync Installation(based on yii advanced template v1.0)";
@@ -56,7 +65,7 @@ class InstallController extends Controller
       }
       echo "\n  Information for the database connexion (/conf/db.php): ";
       echo "\n  --------------------";
-      
+
       echo "\n  Host:  [localhost]";
       $data['host'] = trim(fgets(STDIN));
       if (strlen($data['host'])==0){
