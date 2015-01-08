@@ -223,7 +223,7 @@ function setIssuer($uri){
   $file =  './config/params.php';
   $data=parse_url($uri);
 
-  $content = preg_replace('/(("|\')assertionIssuer("|\')\s*=>\s*\[)(""|[A-Z,\'a-z0-9._:\/]*)(\])/', "\\1'localhost','".$data['host']."']", file_get_contents($file));
+  $content = preg_replace('/(("|\')assertionIssuer("|\')\s*=>\s*\[)(""|[A-Z,\'a-z0-9._:\/]*)(\])/', "\\1'localhost','api.accounts.firefox.com','".$data['host']."']", file_get_contents($file));
   file_put_contents($file, $content);
 }
 
