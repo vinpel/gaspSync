@@ -27,19 +27,17 @@ install:
   - travis_retry composer update
 # codeception
   - travis_retry composer global require "codeception/codeception=2.0.*" "codeception/specify=*" "codeception/verify=*"
-# configuration of the app
-  - travis_retry yii install/travis
-# Creating database
-  - travis_retry yii migrate --interactive=0
+
 
 script:
-  - |
-    if (php --version | grep -i HipHop > /dev/null); then
-      echo "Skipping basic application tests on HHVM"
-    else
-      cd web
-      php -S localhost:8080 > /dev/null 2>&1 &
-      cd ../tests
-      codecept build
-      codecept run -vvv
-    fi
+  - 
+# configuration of the app
+  - yii install/travis
+# Creating database
+  - yii migrate --interactive=0  
+  - cd web
+  - php -S localhost:8080 > /dev/null 2>&1 &
+  - cd ../tests
+  - codecept build
+  - codecept run -vvv
+
