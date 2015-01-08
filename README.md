@@ -42,6 +42,7 @@ __Not implemented :__
 Required  :
 - gmp
 - curl
+
 in the future for account server :
 - scrypt
 
@@ -65,11 +66,13 @@ SSLEngine on
 
 
 in command line launch :
+- **composer global require "fxp/composer-asset-plugin:1.0.0-beta4"**
 - **composer install** : install Yii2, custom package ...
 - **yii install** Create keys, configuration ...
 - **yii migrate** and type "yes" to create and empty database
 - For the client configuration, open the root URI of gaspSync
 
+If you don't want to install composer you can install on you'r computer and push all the arborescence to the NAS, just launch "yii install" and "yii migrate"
 
 ## Client configuration
 
@@ -83,7 +86,7 @@ __Information :__
 
 ## Running tests
 
-After the installation of gaspSync,open 2 terminal :
+After the installation of gaspSync, open 2 terminal :
 
 Terminal 1 :
 ```
