@@ -11,7 +11,7 @@ use app\models\FxaError;
 
 use Hawk;
 
-class SyncUrlRules extends UrlRule
+class SyncUrlRules 
 {
   public $connectionID = 'db';
 
@@ -40,7 +40,7 @@ class SyncUrlRules extends UrlRule
   /**
   * Here we put custom Paths
   */
-  public function parseRequest($manager, $request)
+  static public function parseRequest($manager, $request)
   {
     // **
     // **

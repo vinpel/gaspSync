@@ -11,7 +11,7 @@ use app\models\FxaError;
 
 
 
-class AccountServerUrlRules extends UrlRule
+class AccountServerUrlRules 
 {
   public $connectionID = 'db';
 
@@ -33,7 +33,7 @@ class AccountServerUrlRules extends UrlRule
   /**
   * Here we put custom Paths
   */
-  public function parseRequest($manager, $request)
+  static public function parseRequest($manager, $request)
   {
     // **
     // **

@@ -1,5 +1,5 @@
 <?php
-
+error_reporting(E_STRICT);
 // NOTE: Make sure this file is not accessible when deployed to production
 if (!in_array(@$_SERVER['REMOTE_ADDR'], ['127.0.0.1', '10.0.4.50','192.168.0.35','192.168.0.49','::1'])) {
     die('You are not allowed to access this file.'.@$_SERVER['REMOTE_ADDR']);
