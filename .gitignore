@@ -38,3 +38,5 @@ tests/_output/*
 
 #the local config directory, use init plz
 /config/local.*
+
+release.sh
