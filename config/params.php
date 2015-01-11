@@ -13,7 +13,7 @@ return [
   'adminEmail' => 'admin@example.com',
   'bsoList'  => ['keys','collections','clients','crypto','forms','history','meta','bookmarks','prefs','tabs','passwords','addons'],
   // without trailing slash
-  'publicURI' => 'http://10.0.4.59:4000',
+  'publicURI' => 'https://localhost:4000',
   'endPointUrl'=>'syncServer',
   'fxaVersions'=> [
     'SyncVersion'=>'1.0',
@@ -21,7 +21,7 @@ return [
     'ContentVersion'=>'1',
   ],
     // Authorized issuer
-  'assertionIssuer'=>['localhost','10.0.4.59'],
+  'assertionIssuer'=>['localhost','api.accounts.firefox.com','localhost'],
   'storagePath' =>[
     'wellKnowKey' => '@storage/well-known',
     'storageKey'=> '@storage/SSL/',
