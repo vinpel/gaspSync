@@ -128,13 +128,14 @@ class InstallController extends Controller
         mkdir($path, 0777, true);
       }
     }
+    setWritable($root,$target);
     setCookieValidationKey('config',['web.php']);
 
     if (!is_file('./storage/secretToken')){
       echo "\n      creating new secretToken";
       $length = 64;
       $bytes = mcrypt_create_iv($length, MCRYPT_DEV_URANDOM);
-      $secretKey = strtr(substr(base64_encode($bytes), 0, $length), '+/=', '_-.');
+      $secretKey = bin2hex(strtr(substr(base64_encode($bytes), 0, $length), '+/=', '_-.'));
       file_put_contents('./storage/secretToken',$secretKey);
     }
 
