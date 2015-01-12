@@ -129,7 +129,7 @@ class InstallController extends Controller
     setWritable($root,$target);
     setCookieValidationKey('config',['web.php']);
 
-    if (!is_file('./storage/secretToken')){
+    if (!is_file($root.'/storage/secretToken')){
       echo "\n      creating new secretToken";
       $length = 64;
       $bytes = mcrypt_create_iv($length, MCRYPT_DEV_URANDOM);
