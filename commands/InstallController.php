@@ -105,8 +105,8 @@ class InstallController extends Controller
 
 
 
-    setPublicURI($data['publicURI']);
-    setIssuer($data['publicURI']);
+    setPublicURI($data['publicURI'],$root);
+    setIssuer($data['publicURI'],$root);
 
 
     setWritable($root,['runtime','web/assets','storage']);
@@ -237,14 +237,14 @@ function createSymlink($links)
   }
 }
 
-function setPublicURI($uri){
-  $file =  './config/params.php';
+function setPublicURI($uri,$root){
+  $file =  $root.'/config/params.php';
   $content = preg_replace('/(("|\')publicURI("|\')\s*=>\s*)(""|\'[A-Za-z0-9._:\/]*\')/', "\\1'$uri'", file_get_contents($file));
   file_put_contents($file, $content);
 }
 
-function setIssuer($uri){
-  $file =  './config/params.php';
+function setIssuer($uri,$root){
+  $file =  $root.'/config/params.php';
   $data=parse_url($uri);
 
   $content = preg_replace('/(("|\')assertionIssuer("|\')\s*=>\s*\[)(""|[A-Z,\'a-z0-9._:\/]*)(\])/', "\\1'localhost','api.accounts.firefox.com','".$data['host']."']", file_get_contents($file));
