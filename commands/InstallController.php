@@ -31,6 +31,7 @@ use BrowserID\WebToken;
 */
 class InstallController extends Controller
 {
+  private $RC="\n";
   /**
   * special Configuration for travis
   */
@@ -40,6 +41,14 @@ class InstallController extends Controller
     \Yii::getAlias('@app/config/local.init.php'));
     $this->actionIndex();
   }
+  /**
+  * special Configuration for travis
+  */
+  public function actionSynology() {
+
+    $this->RC='<br/>';
+    $this->actionIndex();
+  }
 
   /**
   * This command echoes what you have entered as the message.
@@ -47,7 +56,7 @@ class InstallController extends Controller
   */
   public function actionIndex()
   {
-    echo "\ngaspSync Installation(based on yii advanced template v1.0)<br/>";
+    echo "gaspSync Installation(based on yii advanced template v1.0)".$this->RC;
     if (!extension_loaded('mcrypt')) {
       die('The mcrypt PHP extension is required by Yii2.');
     }
@@ -93,7 +102,7 @@ class InstallController extends Controller
     else{
       $data=require($local);
     }
-    echo "<br/>      editing config/db.php";
+    echo "      editing config/db.php".$this->RC;
     $db=var_export([
       'class' => 'yii\db\Connection',
       'dsn' => 'mysql:host='.$data['host'].';dbname='.$data['database'],
@@ -106,11 +115,11 @@ class InstallController extends Controller
 
 
 
-    setPublicURI($root,$data['publicURI']);
-    setIssuer($root,$data['publicURI']);
+    $this->setPublicURI($root,$data['publicURI']);
+    $this->setIssuer($root,$data['publicURI']);
 
 
-    setWritable($root,['runtime','web/assets','storage']);
+    $this->setWritable($root,['runtime','web/assets','storage']);
 
     //Storage paths
     $target=[
@@ -122,28 +131,28 @@ class InstallController extends Controller
         ];
     foreach ($target as $rep){
       $path=\Yii::getAlias('@storage/'.$rep);
-      echo "\n      mkdir $path";
+      echo "      mkdir $path".$this->RC;
       if (!is_dir($path)){
         mkdir($path, 0777, true);
       }
     }
-    setWritable($root,$target);
-    setCookieValidationKey($root.'/config',['web.php']);
+    $this->setWritable($root,$target);
+    $this->setCookieValidationKey($root.'/config',['web.php']);
 
     if (!is_file($root.'/storage/secretToken')){
-      echo "\n      creating new secretToken";
+      echo "      creating new secretToken".$this->RC;
       $length = 64;
       $bytes = mcrypt_create_iv($length, MCRYPT_DEV_URANDOM);
       $secretKey = bin2hex(strtr(substr(base64_encode($bytes), 0, $length), '+/=', '_-.'));
       file_put_contents($root.'/storage/secretToken',$secretKey);
     }
 
-    echo "\n      creating dsaKeyPair";
+    echo "      creating dsaKeyPair".$this->RC;
     $dsa=new \Crypto\Crypto();
     $keyPath=\Yii::getAlias('@storage/BrowserID/keys/');
     $dsa->generateNewDSAKey($keyPath);
 
-    echo "\n      creating root certificate";
+    echo "      creating root certificate".$this->RC;
     // Comment the following line out to test the script!
 
     $name = 'root';
@@ -154,13 +163,13 @@ class InstallController extends Controller
     \Yii::getAlias('@storage/BrowserID/var/openssl.cnf'));
 
     // Generate keypair:
-    echo "\n      -> generate key pair with keysize $keysize...";
+    echo "      -> generate key pair with keysize $keysize...".$this->RC;
     $pair = RSAKeyPair::generate($keysize);
 
-    echo "\n      -> keys were generated!";
+    echo "      -> keys were generated!".$this->RC;
 
     // Write secret key to file:
-    echo "\n      -> write Secret Key...";
+    echo "      -> write Secret Key...".$this->RC;
 
     $pathSecretKey = Secrets::getPathSecretKey($name);
 
@@ -169,17 +178,17 @@ class InstallController extends Controller
 
     fwrite($handle, $pair->getSecretKey()->serialize());
     fclose($handle);
-    echo "\n      -> secret Key was written to " . $pathSecretKey ;
+    echo "      -> secret Key was written to " . $pathSecretKey.$this->RC ;
 
     // Write public key to file:
-    echo "\n      -> write Public Key...";
+    echo "      -> write Public Key...".$this->RC;
     $pathPublicKey = Secrets::getPathPublicKey($name);
     $public = array("public-key"=>json_decode($pair->getPublicKey()->serialize(), true));
     $token = new WebToken($public);
     $handle = fopen($pathPublicKey, "w+");
     fwrite($handle, $token->serialize($pair->getSecretKey()));
     fclose($handle);
-    echo "\n      -> public Key was written to " . $pathPublicKey ;
+    echo "      -> public Key was written to " . $pathPublicKey .$this->RC;
 
 
 
@@ -195,61 +204,62 @@ class InstallController extends Controller
 
 
 
-    echo "\n";
+    echo "End of install".$this->RC;
   }
-}
-
-function setWritable($root, $paths)
-{
-  foreach ($paths as $writable) {
-    echo "\n      chmod 0777 $writable";
-    @chmod("$root/$writable", 0777);
+  function setWritable($root, $paths)
+  {
+    foreach ($paths as $writable) {
+      echo "      chmod 0777 $writable".$this->RC;
+      @chmod("$root/$writable", 0777);
+    }
   }
-}
 
-function setExecutable($root, $paths)
-{
-  foreach ($paths as $executable) {
-    echo "\n      chmod 0755 $executable\n";
-    @chmod("$root/$executable", 0755);
+  function setExecutable($root, $paths)
+  {
+    foreach ($paths as $executable) {
+      echo "      chmod 0755 $executable".$this->RC;
+      @chmod("$root/$executable", 0755);
+    }
   }
-}
 
-function setCookieValidationKey($root, $paths)
-{
-  foreach ($paths as $file) {
-    echo "\n      generate cookie validation key in $file";
-    $file = $root . '/' . $file;
-    $length = 32;
-    $bytes = mcrypt_create_iv($length, MCRYPT_DEV_URANDOM);
-    $key = strtr(substr(base64_encode($bytes), 0, $length), '+/=', '_-.');
-    $content = preg_replace('/(("|\')cookieValidationKey("|\')\s*=>\s*)(""|\'[A-Za-z0-9._:\/-]*\')/', "\\1'$key'", file_get_contents($file));
+  function setCookieValidationKey($root, $paths)
+  {
+    foreach ($paths as $file) {
+      echo "      generate cookie validation key in $file".$this->RC;
+      $file = $root . '/' . $file;
+      $length = 32;
+      $bytes = mcrypt_create_iv($length, MCRYPT_DEV_URANDOM);
+      $key = strtr(substr(base64_encode($bytes), 0, $length), '+/=', '_-.');
+      $content = preg_replace('/(("|\')cookieValidationKey("|\')\s*=>\s*)(""|\'[A-Za-z0-9._:\/-]*\')/', "\\1'$key'", file_get_contents($file));
+      file_put_contents($file, $content);
+    }
+  }
+
+  function createSymlink($links)
+  {
+    foreach ($links as $link => $target) {
+      echo "    symlink $target as $link".$this->RC;
+      if (!is_link($link)) {
+        symlink($target, $link);
+      }
+    }
+  }
+
+  function setPublicURI($root,$uri){
+    $file =  $root.'/config/params.php';
+    $content = preg_replace('/(("|\')publicURI("|\')\s*=>\s*)(""|\'[A-Za-z0-9._:\/]*\')/', "\\1'$uri'", file_get_contents($file));
+    file_put_contents($file, $content);
+  }
+
+  function setIssuer($root,$uri){
+    $file =  $root.'/config/params.php';
+    $data=parse_url($uri);
+
+    $content = preg_replace('/(("|\')assertionIssuer("|\')\s*=>\s*\[)(""|[A-Z,\'a-z0-9._:\/]*)(\])/', "\\1'localhost','api.accounts.firefox.com','".$data['host']."']", file_get_contents($file));
     file_put_contents($file, $content);
   }
 }
 
-function createSymlink($links)
-{
-  foreach ($links as $link => $target) {
-    echo "    symlink $target as $link\n";
-    if (!is_link($link)) {
-      symlink($target, $link);
-    }
-  }
-}
 
-function setPublicURI($root,$uri){
-  $file =  $root.'/config/params.php';
-  $content = preg_replace('/(("|\')publicURI("|\')\s*=>\s*)(""|\'[A-Za-z0-9._:\/]*\')/', "\\1'$uri'", file_get_contents($file));
-  file_put_contents($file, $content);
-}
-
-function setIssuer($root,$uri){
-  $file =  $root.'/config/params.php';
-  $data=parse_url($uri);
-
-  $content = preg_replace('/(("|\')assertionIssuer("|\')\s*=>\s*\[)(""|[A-Z,\'a-z0-9._:\/]*)(\])/', "\\1'localhost','api.accounts.firefox.com','".$data['host']."']", file_get_contents($file));
-  file_put_contents($file, $content);
-}
 
 ?>
