@@ -105,8 +105,8 @@ class InstallController extends Controller
 
 
 
-    setPublicURI($data['publicURI'],$root);
-    setIssuer($data['publicURI'],$root);
+    setPublicURI($root,$data['publicURI']);
+    setIssuer($root,$data['publicURI']);
 
 
     setWritable($root,['runtime','web/assets','storage']);
@@ -127,7 +127,7 @@ class InstallController extends Controller
       }
     }
     setWritable($root,$target);
-    setCookieValidationKey('config',['web.php']);
+    setCookieValidationKey($root.'/config',['web.php']);
 
     if (!is_file($root.'/storage/secretToken')){
       echo "\n      creating new secretToken";
@@ -237,13 +237,13 @@ function createSymlink($links)
   }
 }
 
-function setPublicURI($uri,$root){
+function setPublicURI($root,$uri){
   $file =  $root.'/config/params.php';
   $content = preg_replace('/(("|\')publicURI("|\')\s*=>\s*)(""|\'[A-Za-z0-9._:\/]*\')/', "\\1'$uri'", file_get_contents($file));
   file_put_contents($file, $content);
 }
 
-function setIssuer($uri,$root){
+function setIssuer($root,$uri){
   $file =  $root.'/config/params.php';
   $data=parse_url($uri);
 
