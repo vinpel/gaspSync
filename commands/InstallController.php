@@ -46,16 +46,14 @@ class InstallController extends Controller
   */
   public function actionIndex()
   {
-
     echo "\ngaspSync Installation(based on yii advanced template v1.0)";
-
     if (!extension_loaded('mcrypt')) {
       die('The mcrypt PHP extension is required by Yii2.');
     }
 
-    $root = str_replace('\\', '/', __DIR__);
+    $root =substr(str_replace('\\', '/', __DIR__),0,-8);;
 
-    $local='./config/local.init.php';
+    $local=$root.'/config/local.init.php';
 
     if (!is_file($local)){
       echo "\n  Enter the public URI of the server without ending slash (need to be https) [https://localhost:4000]:\n";
@@ -89,7 +87,7 @@ class InstallController extends Controller
         //save the configuration, if you need to launch multiple time the install
       echo "\n      create file config/local.init.php";
       $fc=var_export($data,true);
-      file_put_contents('./config/local.init.php',"<?php\n return $fc \n?>");
+      file_put_contents($root.'/config/local.init.php',"<?php\n return $fc \n?>");
     }
     else{
       $data=require($local);
@@ -103,14 +101,14 @@ class InstallController extends Controller
       'charset' => 'utf8',
     ],true);
     $fileContent="<?php\n return $db \n?>";
-    file_put_contents('./config/db.php',$fileContent);
+    file_put_contents($root.'/config/db.php',$fileContent);
 
 
 
     setPublicURI($data['publicURI']);
     setIssuer($data['publicURI']);
 
-    $root='.';
+
     setWritable($root,['runtime','web/assets','storage']);
 
     //Storage paths
@@ -136,7 +134,7 @@ class InstallController extends Controller
       $length = 64;
       $bytes = mcrypt_create_iv($length, MCRYPT_DEV_URANDOM);
       $secretKey = bin2hex(strtr(substr(base64_encode($bytes), 0, $length), '+/=', '_-.'));
-      file_put_contents('./storage/secretToken',$secretKey);
+      file_put_contents($root.'/storage/secretToken',$secretKey);
     }
 
     echo "\n      creating dsaKeyPair";
