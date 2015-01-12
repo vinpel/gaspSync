@@ -40,13 +40,14 @@ class InstallController extends Controller
     \Yii::getAlias('@app/config/local.init.php'));
     $this->actionIndex();
   }
+
   /**
   * This command echoes what you have entered as the message.
   * @param string $message the message to be echoed.
   */
   public function actionIndex()
   {
-    echo "\ngaspSync Installation(based on yii advanced template v1.0)";
+    echo "\ngaspSync Installation(based on yii advanced template v1.0)<br/>";
     if (!extension_loaded('mcrypt')) {
       die('The mcrypt PHP extension is required by Yii2.');
     }
@@ -92,7 +93,7 @@ class InstallController extends Controller
     else{
       $data=require($local);
     }
-    echo "\n      editing config/db.php";
+    echo "<br/>      editing config/db.php";
     $db=var_export([
       'class' => 'yii\db\Connection',
       'dsn' => 'mysql:host='.$data['host'].';dbname='.$data['database'],
