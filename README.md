@@ -19,7 +19,7 @@ Before that I used a Synology NAS to sync my bookmarks across all computers.
 
 Mozilla provides a Python self-hosting script, I wanted to use a simple PHP app like before.
 
-**So i build one.**
+**So I built one.**
 
 The final goal is to have a simple install on a Synology NAS or other models (it's a PHP app ).
 
@@ -68,7 +68,7 @@ SSLEngine on
 
 
 
-in command line launch :
+On a command line, launch the following:
 - **composer global require "fxp/composer-asset-plugin:1.0.0-beta4"**
 - **composer install** : install Yii2, custom package ...
 - **yii install** Create keys, configuration ...
@@ -84,7 +84,7 @@ If you don't want to install composer you can install on your computer and push 
 
 
 __Information :__
-- !! Warning, when you **LOGOUT** from Firefox account, the tokenserverurl is reset to default, you need to restart Firefox before logging in again !!
+- !! Warning, when you **LOGOUT** from a Firefox account, the tokenserverurl is reset to default, you need to restart Firefox before logging in again !!
 - Each time you relaunch Firefox, the custom value of "user.js" are applied.
 
 ## Running tests
@@ -138,7 +138,7 @@ http://www.aeropassion.net/leblog/post/2013/12/Cross-compilation-pour-un-NAS-Syn
 
 **How to turn on sync logs:**
 
-Open [about:config] and turn this at  **true** :
+Open [about:config] and set these to  **true** :
 - services.sync.log.appender.file.logOnSuccess
 - services.sync.log.logger.engine.bookmarks
 
