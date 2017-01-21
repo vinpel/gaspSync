@@ -34,6 +34,6 @@ script:
   - ./yii migrate --interactive=0
   - cd web
   - php -S localhost:8080 > /dev/null 2>&1 &
-  - cd ../tests
+  - cd ..
   - composer exec codecept build
-  - composer codecept run -vvv
+  - composer exec codecept run -vvv
