@@ -1,6 +1,7 @@
 <?php
 // codecept -v --debug  run unit models/VerifierTest.php
-namespace tests\codeception\unit\models;
+namespace tests\models;
+
 
 use yii\codeception\TestCase;
 use app\models\Token;
@@ -12,7 +13,7 @@ use Crypto\Crypto;
 use app\controllers\AccountController;
 
 
-class AccountTest extends TestCase
+class AccountTest extends \Codeception\Test\Unit
 {
 
   private $acc;

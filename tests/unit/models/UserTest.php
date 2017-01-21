@@ -1,10 +1,10 @@
 <?php
 
-namespace tests\codeception\unit\models;
+namespace tests\models;
 
-use yii\codeception\TestCase;
 
-class UserTest extends TestCase
+
+class UserTest extends \Codeception\Test\Unit
 {
     protected function setUp()
     {

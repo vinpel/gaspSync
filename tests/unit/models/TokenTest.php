@@ -1,11 +1,9 @@
 <?php
+namespace tests\models;
 
-namespace tests\codeception\unit\models;
-
-use yii\codeception\TestCase;
 use app\models\Token;
 
-class TokenTest extends TestCase
+class TokenTest extends \Codeception\Test\Unit
 {
 
   private $browserIDToken;
@@ -13,18 +11,22 @@ class TokenTest extends TestCase
   protected function setUp()
   {
     parent::setUp();
+
     $this->audience=\Yii::$app->params['publicURI'];
     // uncomment the following to load fixtures for user table
     //$this->loadFixtures(['user']);
   }
   public function testTokenCreateVerifyAssert(){
+
     $Authorization='BrowserID eyJhbGciOiJSUzI1NiJ9.eyJmeGEtZ2VuZXJhdGlvbiI6MTQxMzUzMzYxMzMzNSwiZnhhLWxhc3RBdXRoQXQiOjE0MTM3MDk4NzIsImZ4YS12ZXJpZmllZEVtYWlsIjoic3luYzRAcGVsaXNzZXQuY29tIiwicHVibGljLWtleSI6eyJhbGdvcml0aG0iOiJEUyIsInkiOiJjZWVlYWUwNGEyNTU0OGNhMDMxNDMxYjdjOGE1ODE3OWVlMmFmMDgzZTliNzE5Y2QzNDVlMjQ4NmJhYjYyM2YxMzdjZWIxYjY2NGRiYzY4YmFjZTQyOGFjMmM4M2M1MThhZjJkZTVkZWFkMWViODEzZmZlZWRiMDU3ODhhYzEwZjQzODhkZmI4Y2NhNmQzYzlkNzQxYTQ2NmEyY2ZkYzQyMWM5ZWY0ZjZmOWRhNmY1Mzg0YjI3ZDczNjExZWM0NDZhM2Y0YjdhMzE3NDNhZGFjMjMxMWIzMGZlZDU3YzAxZDcwMGFiOTdjY2RiYTczZjhjZjFjOTJjMDRmZmZhMTMwIiwicCI6ImZmNjAwNDgzZGI2YWJmYzViNDVlYWI3ODU5NGIzNTMzZDU1MGQ5ZjFiZjJhOTkyYTdhOGRhYTZkYzM0ZjgwNDVhZDRlNmUwYzQyOWQzMzRlZWVhYWVmZDdlMjNkNDgxMGJlMDBlNGNjMTQ5MmNiYTMyNWJhODFmZjJkNWE1YjMwNWE4ZDE3ZWIzYmY0YTA2YTM0OWQzOTJlMDBkMzI5NzQ0YTUxNzkzODAzNDRlODJhMThjNDc5MzM0MzhmODkxZTIyYWVlZjgxMmQ2OWM4Zjc1ZTMyNmNiNzBlYTAwMGMzZjc3NmRmZGJkNjA0NjM4YzJlZjcxN2ZjMjZkMDJlMTciLCJxIjoiZTIxZTA0ZjkxMWQxZWQ3OTkxMDA4ZWNhYWIzYmY3NzU5ODQzMDljMyIsImciOiJjNTJhNGEwZmYzYjdlNjFmZGYxODY3Y2U4NDEzODM2OWE2MTU0ZjRhZmE5Mjk2NmUzYzgyN2UyNWNmYTZjZjUwOGI5MGU1ZGU0MTllMTMzN2UwN2EyZTllMmEzY2Q1ZGVhNzA0ZDE3NWY4ZWJmNmFmMzk3ZDY5ZTExMGI5NmFmYjE3YzdhMDMyNTkzMjllNDgyOWIwZDAzYmJjNzg5NmIxNWI0YWRlNTNlMTMwODU4Y2MzNGQ5NjI2OWFhODkwNDFmNDA5MTM2YzcyNDJhMzg4OTVjOWQ1YmNjYWQ0ZjM4OWFmMWQ3YTRiZDEzOThiZDA3MmRmZmE4OTYyMzMzOTdhIn0sInByaW5jaXBhbCI6eyJlbWFpbCI6ImIyNjQwNjZkMmI2ZTRjZTk4OGNjNTVjMmEwOTQ3NDk3QGFwaS5hY2NvdW50cy5maXJlZm94LmNvbSJ9LCJpYXQiOjE0MTM3MDk4NjM1ODYsImV4cCI6MTQxMzczMTQ3MzU4NiwiaXNzIjoiYXBpLmFjY291bnRzLmZpcmVmb3guY29tIn0.QJFzrq9SwNUhmTIany4hpIFp2DO7GR_lz2Ba85zAPF9cI780-rufYlAHNDsOEMPPayrEUXCjEr0Pj_WXU1NjRjsDGMnSDY7rL5_xgAa6QbqzOOMk9ZQIRbA2iBqRi6_xET97vAyDFvl52zFyG3WCJCmwkchcJOxgPKFPpwE70mELOMBvV9UQ_aC9CBOBDxi-PXtshVKq83sVU00eJuZsuVRG-cReJ_xZletRZS9nWw7jqWWbDERB_RXccZ50Xzr3qR23RuFL5ZUvnoxYrASg5kkjsxDoc9WzaY0l25dw0yVxneA_wSD5xoX_PnweyP67EImokan5DJGdaYiYbeV9~eyJhbGciOiJEUzEyOCJ9.eyJleHAiOjIyMDIxMTIwMjEzNTYsImF1ZCI6Imh0dHBzOi8vMTkyLjE2OC4wLjQ5In0=.sn-lXfcN-XkPiX_ZbkUP9AgHHY_hnA-yyHFd0zko35NB2iV3w9Piwg==';
     \Yii::$app->request->headers->set('AUTHORIZATION',$Authorization);
     $token= new Token();
     $this->browserIDToken=$token->createAssertion('testtest@signedMessage.com',$this->audience);
+
     try{
       $ret=$token->verifyAssertion($this->audience,$this->browserIDToken);
     }
+
     catch (\Exception $e) {
       \Codeception\Util\Debug::debug($e->getMessage());
       $ret=false;

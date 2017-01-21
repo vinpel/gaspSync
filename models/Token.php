@@ -250,7 +250,6 @@ class Token extends Model
   public function createAssertion($principal,$audience){
 
     //generate a new key ONLY if any present
-
     \Crypto\Crypto::generateNewDSAKey(\Yii::getAlias('@storage/BrowserID/keys/'));
 
     $keyPublic=file_get_contents(\Yii::getAlias('@storage/BrowserID/keys/public_key_content.txt'));

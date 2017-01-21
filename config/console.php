@@ -1,8 +1,6 @@
 <?php
 
-Yii::setAlias('@tests', dirname(__DIR__) . '/tests');
-Yii::setAlias('@storage', dirname(__DIR__) . '/storage');
-
+require(__DIR__ . '/alias.php');
 $params = require(__DIR__ . '/params.php');
 $db = require(__DIR__ . '/db.php');
 

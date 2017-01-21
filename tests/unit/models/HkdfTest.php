@@ -3,15 +3,15 @@
 * https://tools.ietf.org/rfc/rfc5869.txt
 * For now, and maybe forever, last test fail, a sha1 problem
 */
-namespace tests\codeception\unit\models;
+namespace tests\models;
 
-use yii\codeception\TestCase;
+
 
 use Crypto\Crypto;
 
 use Codeception\Util\Debug;
 
-class HkdfTest extends TestCase
+class HkdfTest extends \Codeception\Test\Unit
 {
   protected function setUp()
   {

@@ -13,7 +13,7 @@ $config = [
   'components' => [
     'request' => [
       // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
-      'cookieValidationKey' => 'TlRX1xjzuIgrpop_CxoDvX-NR05F6pnU',
+      'cookieValidationKey' => 'mY3rQgQndLIsZ_iKX_XEQvuImnvlEUfO',
     ],
     'response' => [
       //   'format' => yii\web\Response::FORMAT_JSON,

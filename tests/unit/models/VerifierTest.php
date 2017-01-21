@@ -1,8 +1,8 @@
 <?php
 // codecept -v --debug  run unit models/VerifierTest.php
-namespace tests\codeception\unit\models;
+namespace tests\models;
 
-use yii\codeception\TestCase;
+
 use app\models\Token;
 
 use Codeception\Util\Debug;
@@ -10,7 +10,7 @@ use Codeception\Util\Debug;
 use Crypto\Crypto;
 
 
-class VerifierTest extends TestCase
+class VerifierTest extends \Codeception\Test\Unit
 {
 
   private $keyPath;
