@@ -1,6 +1,5 @@
 <?php
-
-namespace app\Controllers;
+namespace app\controllers;
 
 use app\models\AccAccounts;
 use app\models\FxaError;
@@ -9,21 +8,29 @@ use app\models\AccKeyfetchtokens;
 use app\models\AccSessionTokens;
 use Crypto\Crypto;
 
-
-class AccountController extends \yii\web\Controller
-{
-  public $enableCsrfValidation = false;
+use yii\web\Controller;
+/**
+*
+*/
+class AccountController extends Controller{
+  //public $enableCsrfValidation = false;
 
   private $uid = null;
-
   private $compte  = null; //the current user
-
+  /**
+  *
+  */
+  public function actionIndex()
+  {
+    return "hel";
+  }
   /**
   * Creation of an account
   * POST /v1/account/create
   */
   public function actionCreate($keys=false){
     //Only for testing :p
+
     \Yii::$app->request->rawBody='{"email":"test@test.com","authPW":"04253ecdf6ab0bf828e8bbdaade510575a86d5dd5e3b77f3ebfaada9a19a1390"}';
 
     $postJson=json_decode(\Yii::$app->request->rawBody,true);
@@ -81,12 +88,12 @@ class AccountController extends \yii\web\Controller
     $jsonData['authAt']=decistamp();//second since epoch
 
 
-/*
+    /*
     {"uid":"acdbcf5254c34d74b30fe45c3cea6018",
-      "sessionToken":"12b06df038bcfd90693277a2e93ffb8165bf34ee9a8fe3de079614e9e2555e68",
-      "keyFetchToken":"3d9b1b0d3a1e031ffe57033f98abf0c0d9d4cfebd7dbf9622edaaf23eb8da271",
-      "authAt":1412421388}
-*/
+    "sessionToken":"12b06df038bcfd90693277a2e93ffb8165bf34ee9a8fe3de079614e9e2555e68",
+    "keyFetchToken":"3d9b1b0d3a1e031ffe57033f98abf0c0d9d4cfebd7dbf9622edaaf23eb8da271",
+    "authAt":1412421388}
+    */
     \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
     return $jsonData;
   }

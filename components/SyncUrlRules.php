@@ -4,29 +4,20 @@ Handles custom urls base on the Fxa recommendations
 */
 namespace app\components;
 
-use yii\web\UrlRule;
+use yii\web\UrlRuleInterface;
+use yii\base\Object;
 
 use app\models\Token;
 use app\models\FxaError;
 
 use Hawk;
 
-class SyncUrlRules
+class SyncUrlRules extends Object implements UrlRuleInterface
 {
-  public $connectionID = 'db';
-
-  public function init()
-  {
-
-    if ($this->name === null) {
-      $this->name = __CLASS__;
-    }
-  }
   /*
   Way to create custom urls
   */
-  public function createUrl($manager, $route, $params)
-  {
+  public function createUrl($manager, $route, $params){
 
     if ($route === 'v1/index') {
       if (isset($params['manufacturer'], $params['model'])) {
@@ -40,8 +31,8 @@ class SyncUrlRules
   /**
   * Here we put custom Paths
   */
-  static public function parseRequest($manager, $request)
-  {
+  public function parseRequest($manager, $request){
+
     // **
     // **
     $version=\Yii::$app->params['fxaVersions'];//SyncVersion ProtocoleVersion ContentVersion
@@ -51,23 +42,23 @@ class SyncUrlRules
     //\Yii::info('chemin demandé :'.$pathInfo);
     $endPointUrl=\Yii::$app->params['endPointUrl'];
 
-//http://192.168.0.49/yii/basic/web/tokenServer/1.0/sync/1.5
+    //http://192.168.0.49/yii/basic/web/tokenServer/1.0/sync/1.5
     //Create Auth Token special URL
     if (preg_match('#^tokenServer/'.$version['SyncVersion'].'/sync/'.$version['ProtocoleVersion'].'#', $pathInfo, $matches)) {
       return  ['token/createtoken',[]];
     }
-      //info/Collections
+    //info/Collections
     if (preg_match('#^'.$endPointUrl.'/([\w]+)/info/collections#', $pathInfo, $matches)) {
       return  ['storage/info-collections',['id'=>$matches[1]]];
     }
 
     //Storage elements, id is not gathered from the Url, but from the assertion in the HawkID
     $listBso=implode('|',\Yii::$app->params['bsoList']);
-      //GET
+    //GET
     if (in_array($verb,['GET']) && preg_match('#^'.$endPointUrl.'/([\w]+)/storage/('.$listBso.')#', $pathInfo, $matches)) {
       return  ['storage/get-bso',['id'=>$matches[1],'bso'=>$matches[2]]];
     }
-      //PUT
+    //PUT
     if (in_array($verb,['PUT']) && preg_match('#^'.$endPointUrl.'/([\w]+)/storage/('.$listBso.')#', $pathInfo, $matches)) {
       return  ['storage/put-bso',['id'=>$matches[1],'bso'=>$matches[2]]];
     }
@@ -98,10 +89,10 @@ class SyncUrlRules
     //découpage par groupe on accepte 3 sous répertoires pour debug
 
     /*if (preg_match('#^([\w\.]+)(/([\w\.]+))?(/([\w\.]+))?$#', $pathInfo, $matches)) {
-        return ['',[]];
-      exit;
-    }*/
+    return ['',[]];
+    exit;
+  }*/
 
-    return false;  // any rules apply
-  }
+  return false;  // any rules apply
+}
 }

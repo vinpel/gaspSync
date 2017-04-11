@@ -5,38 +5,28 @@ Handles custom urls base on the Fxa recommendations
 namespace app\components;
 
 use yii\web\UrlRule;
-
+use yii\web\UrlRuleInterface;
+use yii\base\Object;
 
 use app\models\FxaError;
 
 
 
-class AccountServerUrlRules
+class AccountServerUrlRules extends Object implements UrlRuleInterface
 {
-  public $connectionID = 'db';
-
-  public function init()
-  {
-
-    if ($this->name === null) {
-      $this->name = __CLASS__;
-    }
-  }
   /*
-  Way to create custom urls
+  We don't want url to be created
   */
-  public function createUrl($manager, $route, $params)
-  {
-
-    return false;  // this rule does not apply
+  public function createUrl($manager, $route, $params){
+    // this rule does not apply
+    return false;
   }
   /**
   * Here we put custom Paths
   */
-  static public function parseRequest($manager, $request)
+  public function parseRequest($manager, $request)
   {
-    // **
-    // **
+
 
     ///v1/account/create
     $version=\Yii::$app->params['fxaVersions'];//SyncVersion ProtocoleVersion ContentVersion
@@ -126,8 +116,6 @@ class AccountServerUrlRules
     if (strcmp($verb,'GET')==0 && preg_match('#^.well-known/browserid#', $pathInfo, $matches)) {
       return  ['account/get-public-key',[]];
     }
-
-
-    return false;  // any rules apply
+        return false;  // any rules apply
   }
 }
