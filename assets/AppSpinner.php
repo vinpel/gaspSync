@@ -7,7 +7,7 @@
 
  /*
  using  https://github.com/mozilla/fxa-js-client
- Flatly Theme http://www.bootstrapzero.com/bootstrap-template/flatly-theme
+ 
  */
 namespace app\assets;
 

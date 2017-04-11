@@ -17,8 +17,7 @@ use yii\web\AssetBundle;
  * @author pelisset vinpel@hotmail.com
  * @since 0.5
  */
-class AppContent extends AssetBundle
-{
+class ContentAsset extends AssetBundle{
   public $basePath = '@webroot';
   public $baseUrl = '@web';
   public $css = [
@@ -28,6 +27,6 @@ class AppContent extends AssetBundle
     public $depends = [
         'yii\web\YiiAsset',
         'yii\bootstrap\BootstrapAsset',
-        'app\assets\AppFxaJsClient',
+        'app\assets\FxaJsClientAsset',
     ];
 }

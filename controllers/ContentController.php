@@ -13,7 +13,10 @@ class ContentController extends Controller
   */
   public function actionIndex()
   {
-    return $this->render('login',['publicURI'=>Yii::$app->params['publicURI']]);
+    $this->layout='basic';
+    return $this->render('index',[
+      'publicURI'=>Yii::$app->params['publicURI']
+    ]);
   }
 
 

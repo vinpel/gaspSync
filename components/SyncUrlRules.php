@@ -11,7 +11,7 @@ use app\models\FxaError;
 
 use Hawk;
 
-class SyncUrlRules 
+class SyncUrlRules
 {
   public $connectionID = 'db';
 
@@ -48,7 +48,7 @@ class SyncUrlRules
     $pathInfo = $request->getPathInfo();
 
     $verb = $request->getMethod();
-    \Yii::info('chemin demandé :'.$pathInfo);
+    //\Yii::info('chemin demandé :'.$pathInfo);
     $endPointUrl=\Yii::$app->params['endPointUrl'];
 
 //http://192.168.0.49/yii/basic/web/tokenServer/1.0/sync/1.5

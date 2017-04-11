@@ -5,15 +5,15 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 
-use app\assets\AppContent;
-AppContent::register($this);
+use app\assets\FxaJsClientAsset;
+FxaJsClientAsset::register($this);
 ?>
 
 <div class="row">
   <div class="col-md-8 col-md-offset-2">
     <div class="well bs-component">
       <h1><div class="title-font">
-        <img src="firefox_med.png">gaspSync</div></h1>
+        <img src="/firefox_med.png">gaspSync</div></h1>
       <?= Html::beginForm('/','POST',['id'=>'ident-form'])?>
       <div class="form-group">
         <div class="row">

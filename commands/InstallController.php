@@ -11,9 +11,6 @@ use yii\console\Controller;
 
 
 
-//use BrowserID\AbstractPublicKey;
-//use BrowserID\AbstractSecretKey;
-
 use BrowserID\CertAssertion;
 use BrowserID\CertBundle;
 
@@ -26,29 +23,11 @@ use BrowserID\WebToken;
 *
 * Run it !
 *
-* @author Qiang Xue <qiang.xue@gmail.com>
-* @since 2.0
 */
 class InstallController extends Controller
 {
   private $RC="\n";
-  /**
-  * special Configuration for travis
-  */
-  public function actionTravis() {
 
-    copy(\Yii::getAlias('@app/config/travis.init.php'),
-    \Yii::getAlias('@app/config/local.init.php'));
-    $this->actionIndex();
-  }
-  /**
-  * special Configuration for travis
-  */
-  public function actionSynology() {
-
-    $this->RC='<br/>';
-    $this->actionIndex();
-  }
 
   /**
   * This command echoes what you have entered as the message.

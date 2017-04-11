@@ -1,4 +1,0 @@
-# Unfortunatly Synology virtual host have not been configured properly for now
-RewriteEngine on
-RewriteCond %{SERVER_PORT} !^4000$
-RewriteRule .? web/error.html?code=%{SERVER_PORT} [L]

@@ -13,11 +13,10 @@ $config = [
   'components' => [
     'request' => [
       // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
-      'cookieValidationKey' => 'mY3rQgQndLIsZ_iKX_XEQvuImnvlEUfO',
+      'cookieValidationKey' => 'sUK-zzb10rYX4qGuFnhrUTGyZmXQJ-eJ',
     ],
     'response' => [
       //   'format' => yii\web\Response::FORMAT_JSON,
-
       'charset' => 'UTF-8',
     ],
 
@@ -66,13 +65,13 @@ if (YII_ENV_DEV) {
   $config['modules']['debug'] = 'yii\debug\Module';
   $config['modules']['debug'] = [
     'class' => 'yii\debug\Module',
-    'allowedIPs' => ['192.168.0.35','10.0.4.50']
+    'allowedIPs' => ['172.16.28.1','10.0.4.50']
   ];
 
   $config['bootstrap'][] = 'gii';
   $config['modules']['gii'] = [
     'class'=>'yii\gii\Module',
-    'allowedIPs' => ['127.0.0.1', '10.0.4.50','192.168.0.35']
+    'allowedIPs' => ['172.16.28.1', '10.0.4.50','192.168.0.35']
   ];
 
 

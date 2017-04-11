@@ -25,7 +25,7 @@ class TokenTest extends \Codeception\Test\Unit
 
     try{
       $ret=$token->verifyAssertion($this->audience,$this->browserIDToken);
-    }
+      }
 
     catch (\Exception $e) {
       \Codeception\Util\Debug::debug($e->getMessage());
@@ -52,6 +52,8 @@ class TokenTest extends \Codeception\Test\Unit
       else
       $ret=false;
     }
+    $token->verifyAssertion($audience,$oldAssertion);
+    \Codeception\Util\Debug::debug(var_dump($ret));die();
     $this->assertTrue($ret);
   }
 

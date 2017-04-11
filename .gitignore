@@ -1,7 +1,7 @@
 
 # phpstorm project files
 .idea
-
+.rnd
 # netbeans project files
 nbproject
 

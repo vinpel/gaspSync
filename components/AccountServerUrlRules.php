@@ -11,7 +11,7 @@ use app\models\FxaError;
 
 
 
-class AccountServerUrlRules 
+class AccountServerUrlRules
 {
   public $connectionID = 'db';
 

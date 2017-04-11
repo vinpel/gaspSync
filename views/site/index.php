@@ -5,8 +5,6 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 
-use app\assets\AppContent;
-AppContent::register($this);
 ?>
 
 <div class="row">
