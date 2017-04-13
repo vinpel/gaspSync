@@ -24,7 +24,9 @@
     "bower-asset/fxa-js-client": "0.1.*",
     "bower-asset/jquery": "~2.1",
     "bower-asset/gentelella": "*@dev",
-    "rmrevin/yii2-fontawesome": "~2.17"
+    "rmrevin/yii2-fontawesome": "~2.17",
+    "npm-asset/codemirror": "5.25.*",
+    "monolog/monolog": "^1.22"
   },
   "require-dev": {
     "yiisoft/yii2-debug": "~2.0.0",

@@ -14,10 +14,11 @@ class GentelellaAsset extends AssetBundle{
   public $css = [
     'build/css/custom.min.css',
     'vendors/nprogress/nprogress.css',
-    "vendors/fastclick/lib/fastclick.js"
+
   ];
   public $js = [
     'build/js/custom.min.js',
+    'vendors/fastclick/lib/fastclick.js'
   ];
   public $depends = [
     'yii\web\YiiAsset',

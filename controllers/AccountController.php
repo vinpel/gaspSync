@@ -9,6 +9,7 @@ use app\models\AccSessionTokens;
 use Crypto\Crypto;
 
 use yii\web\Controller;
+use yii;
 /**
 *
 */
@@ -31,7 +32,8 @@ class AccountController extends Controller{
   public function actionCreate($keys=false){
     //Only for testing :p
 
-    \Yii::$app->request->rawBody='{"email":"test@test.com","authPW":"04253ecdf6ab0bf828e8bbdaade510575a86d5dd5e3b77f3ebfaada9a19a1390"}';
+    yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+    yii::$app->request->rawBody='{"email":"test2@test.com","authPW":"04253ecdf6ab0bf828e8bbdaade510575a86d5dd5e3b77f3ebfaada9a19a1390"}';
 
     $postJson=json_decode(\Yii::$app->request->rawBody,true);
     if (json_last_error()!==JSON_ERROR_NONE
@@ -590,7 +592,7 @@ class AccountController extends Controller{
   */
   public function getBigStretchedPW($AuthPW,$salt){
 
-    return Crypto::myScrypt($AuthPW, $salt,64*1024, 8, 1, 32);
+    return Crypto::scrypt($AuthPW, $salt,64*1024, 8, 1, 32);
 
   }
   /*

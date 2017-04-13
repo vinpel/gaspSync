@@ -210,8 +210,11 @@ class TokenTest extends \Codeception\Test\Unit
     $myToken=new Token();
     try{
       $assertion = $myToken->createAssertion('testtest@signedMessage.com',\Yii::$app->params['publicURI']);
+      //\Codeception\Util\Debug::debug($assertion);die();
       \Yii::$app->request->headers->set('authorization',$assertion);
+
       $token= $myToken->createAuthToken();
+
       //Fake assertion
       $assertion = $myToken->createAssertion('testtest@signedMessage.com',\Yii::$app->params['publicURI']);
       \Yii::$app->request->headers->set('authorization',$assertion);

@@ -1,19 +1,19 @@
 <?php
-namespace app\components;
+namespace app\urlrules;
 
 use yii\web\UrlRuleInterface;
 use yii\base\Object;
 
 
 use app\models\FxaError;
-use app\components\SyncUrlRules;
-use app\components\AccountServerUrlRules;
+use app\urlrules\SyncUrlRules;
+use app\urlrules\AccountServerUrlRules;
 
 /**
 * This class include the 2 others rules, to have multiple Urlrules class files
 */
 
-class IncludeAllUrlRules extends Object implements UrlRuleInterface
+class AllRules extends Object implements UrlRuleInterface
 {
   /**
   * @inheritdoc

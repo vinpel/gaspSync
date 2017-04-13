@@ -2,7 +2,7 @@
 /*
 Handles custom urls base on the Fxa recommendations
 */
-namespace app\components;
+namespace app\urlrules;
 
 use yii\web\UrlRuleInterface;
 use yii\base\Object;

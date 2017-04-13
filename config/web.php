@@ -51,7 +51,7 @@ $config = [
       'enablePrettyUrl' => true,
       'showScriptName' => false,
       'rules' => [
-        ['class' => 'app\components\IncludeAllUrlRules'],
+        ['class' => 'app\urlrules\AllRules'],
       ],
 
     ],

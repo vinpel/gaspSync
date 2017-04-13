@@ -25,7 +25,7 @@ class AccountTest extends \Codeception\Test\Unit
   {
     parent::setUp();
     $this->acc=new AccountController(null,null);
-    $this->vectors = require(\Yii::getAlias('@app/config/testVectors.php'));
+    $this->vectors = require(codecept_data_dir().'/testVectors.php');
   }
 
   public function testFakekey(){
@@ -33,6 +33,8 @@ class AccountTest extends \Codeception\Test\Unit
     $keyFetchToken = fakeKey(4*32);
     $kA =fakeKey(1*32);
     $accountResetToken =fakeKey(6*32);
+    \Codeception\Util\Debug::debug($this->vectors);
+  
     $this->assertTrue($kA===$this->vectors['vect_kA']);
   }
 /*
